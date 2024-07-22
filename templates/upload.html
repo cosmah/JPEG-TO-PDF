@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Upload JPEGs to Convert to PDF</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="mt-5">Upload JPEGs to Convert to PDF</h1>
+      <form method="post" action="/upload" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="files">Choose JPEG files</label>
+          <input type="file" class="form-control" id="files" name="files[]" multiple accept="image/jpeg">
+        </div>
+        <button type="submit" class="btn btn-primary">Upload</button>
+      </form>
+    </div>
+  </body>
+</html>
