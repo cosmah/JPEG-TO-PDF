@@ -22,21 +22,21 @@ def upload_file():
     if 'files[]' not in request.files:
         return "No file part"
     files = request.files.getlist('files[]')
-    jpg_files = []
+    jpeg_files = []
     for file in files:
-        if file and file.filename.endswith('.jpg'):
+        if file and file.filename.endswith('.jpeg'):
             filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
             file.save(filepath)
-            jpg_files.append(filepath)
+            jpeg_files.append(filepath)
     
-    if jpg_files:
-        output_pdf = convert_jpg_to_pdf(jpg_files)
+    if jpeg_files:
+        output_pdf = convert_jpeg_to_pdf(jpeg_files)
         # Explicitly setting the MIME type and providing a download name
         return send_file(output_pdf, as_attachment=True, mimetype='application/pdf', download_name='output.pdf')
     else:
         return "No valid JPEG files uploaded"
 
-def convert_jpg_to_pdf(jpg_files):
+def convert_jpeg_to_pdf(jpeg_files):
     # Register the font
     pdfmetrics.registerFont(TTFont('TimesNewRoman', 'TimesNewRoman.ttf'))
     
@@ -48,8 +48,8 @@ def convert_jpg_to_pdf(jpg_files):
     can.setFont("TimesNewRoman", 12)
     
     # Process each JPEG file
-    for jpg_file in jpg_files:
-        img = Image.open(jpg_file)
+    for jpeg_file in jpeg_files:
+        img = Image.open(jpeg_file)
         width, height = img.size
         aspect_ratio = width / height
         new_width = A4[0]
@@ -59,7 +59,7 @@ def convert_jpg_to_pdf(jpg_files):
             new_height = A4[1]
             new_width = A4[1] * aspect_ratio
 
-        can.drawImage(jpg_file, 0, 0, width=new_width, height=new_height)
+        can.drawImage(jpeg_file, 0, 0, width=new_width, height=new_height)
         can.showPage()  # Start a new page for the next image
     
     can.save()
